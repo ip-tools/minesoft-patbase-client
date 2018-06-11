@@ -1,0 +1,9 @@
+/.idea
+/.venv*
+*.egg-info
+*.pyc
+/var
+/tmp
+/dist
+/docs/notes.rst
+/docs/_build

@@ -1,0 +1,86 @@
+.. image:: https://img.shields.io/badge/Python-2.7,%203.6-green.svg
+    :target: https://pypi.org/project/minesoft-patbase-client/
+
+.. image:: https://img.shields.io/pypi/v/minesoft-patbase-client.svg
+    :target: https://pypi.org/project/minesoft-patbase-client/
+
+.. image:: https://img.shields.io/github/tag/ip-tools/minesoft-patbase-client.svg
+    :target: https://github.com/ip-tools/minesoft-patbase-client
+
+|
+
+################################
+Minesoft PatBase REST API client
+################################
+
+
+*****
+About
+*****
+``minesoft-patbase-client`` is a client library for accessing the Minesoft PatBase REST API.
+It is written in Python.
+
+Currently, it implements wrappers for the following API methods:
+
+- Login
+- Query
+- SearchResults
+
+For details about the API methods, please consult the canonical `PatBase REST API documentation`_.
+
+.. _PatBase REST API documentation: http://www.patbase.com/rest/PatBaseRestAPI.pdf
+
+
+***************
+Getting started
+***************
+
+Install
+=======
+If you know your way around Python, installing this software is really easy::
+
+    pip install minesoft-patbase-client
+
+Please refer to the `virtualenv`_ page about further guidelines how to install and use this software.
+
+.. _virtualenv: https://github.com/ip-tools/minesoft-patbase-client/blob/master/docs/virtualenv.rst
+
+
+Usage
+=====
+
+
+*******************
+Project information
+*******************
+``minesoft-patbase-client`` is released under the Apache 2.0 license.
+The code lives on `GitHub <https://github.com/ip-tools/minesoft-patbase-client>`_ and
+the Python package is published to `PyPI <https://pypi.org/project/minesoft-patbase-client/>`_.
+You might also want to have a look at the `documentation <https://docs.ip-tools.org/minesoft-patbase-client/>`_.
+
+The software has been tested on Python 2.7 and Python 3.6.
+
+If you'd like to contribute you're most welcome!
+Spend some time taking a look around, locate a bug, design issue or
+spelling mistake and then send us a pull request or create an issue.
+
+Thanks in advance for your efforts, we really appreciate any help or feedback.
+
+
+****************
+PatBase REST API
+****************
+The Minesoft PatBase API (Application Programming Interface) allows internal
+software applications to interface seamlessly with Minesoft’s global patent
+database, PatBase. Containing approximately 100 million patent documents from
+over 100 patent issuing authorities, PatBase is used by large corporations,
+international IP law firms, and tech transfer companies for search, review,
+analysis and monitoring of patent information.
+
+The Minesoft PatBase API is a modern REST API with advanced functionality to
+retrieve data and create parallel solutions, for integration with federated
+search engines and in-house corporate applications.
+
+For more details, see also their blog article `Minesoft API to access big patent data`_.
+
+.. _Minesoft API to access big patent data: https://minesoft.com/2015/02/20/minesoft-develops-api-to-open-up-access-to-big-patent-data/
