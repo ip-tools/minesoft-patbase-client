@@ -31,6 +31,24 @@ For details about the API methods, please consult the canonical `PatBase REST AP
 .. _PatBase REST API documentation: http://www.patbase.com/rest/PatBaseRestAPI.pdf
 
 
+**********************
+About PatBase REST API
+**********************
+The Minesoft PatBase API allows software applications to interface seamlessly
+with PatBase, Minesoft’s global patent database. Containing approximately
+100 million patent documents from over 100 patent issuing authorities,
+PatBase is used by large corporations, international IP law firms and tech
+transfer companies for search, review, analysis and monitoring of patent information.
+
+The Minesoft PatBase API is a modern REST API with advanced functionality to
+create individual software solutions, for powerful data retrieval and for
+integration with federated search engines and in-house corporate applications.
+
+For more details, see also the blog article `Minesoft API to access big patent data`_.
+
+.. _Minesoft API to access big patent data: https://minesoft.com/2015/02/20/minesoft-develops-api-to-open-up-access-to-big-patent-data/
+
+
 ***************
 Getting started
 ***************
@@ -48,6 +66,10 @@ Please refer to the `virtualenv`_ page about further guidelines how to install a
 
 Usage
 =====
+::
+
+    # Login to PatBase and remember credentials for subsequent requests
+    patbase login --username=test@example.org --password=secret
 
 
 *******************
@@ -67,20 +89,6 @@ spelling mistake and then send us a pull request or create an issue.
 Thanks in advance for your efforts, we really appreciate any help or feedback.
 
 
-****************
-PatBase REST API
-****************
-The Minesoft PatBase API (Application Programming Interface) allows internal
-software applications to interface seamlessly with Minesoft’s global patent
-database, PatBase. Containing approximately 100 million patent documents from
-over 100 patent issuing authorities, PatBase is used by large corporations,
-international IP law firms, and tech transfer companies for search, review,
-analysis and monitoring of patent information.
+----
 
-The Minesoft PatBase API is a modern REST API with advanced functionality to
-retrieve data and create parallel solutions, for integration with federated
-search engines and in-house corporate applications.
-
-For more details, see also their blog article `Minesoft API to access big patent data`_.
-
-.. _Minesoft API to access big patent data: https://minesoft.com/2015/02/20/minesoft-develops-api-to-open-up-access-to-big-patent-data/
+Have fun!
