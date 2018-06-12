@@ -6,10 +6,10 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = [
-    'attrs==18.1.0',
+    'attrs>=17.3.0,<18.0.0',
     'docopt==0.6.2',
     'requests>=2.18.4',
-    'jsonpointer==1.12',
+    'jsonpointer>=1.12,<2.0.0',
 ]
 
 test_requires = [
