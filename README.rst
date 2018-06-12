@@ -26,7 +26,8 @@ Currently, it implements wrappers for the following API methods:
 - Query
 - SearchResults
 
-For details about the API methods, please consult the canonical `PatBase REST API documentation`_.
+For more details about the whole list of API methods,
+please consult the canonical `PatBase REST API documentation`_.
 
 .. _PatBase REST API documentation: http://www.patbase.com/rest/PatBaseRestAPI.pdf
 
@@ -42,7 +43,7 @@ transfer companies for search, review, analysis and monitoring of patent informa
 
 The Minesoft PatBase API is a modern REST API with advanced functionality to
 create individual software solutions, for powerful data retrieval and for
-integration with federated search engines and in-house corporate applications.
+integrating with federated search engines as well as in-house corporate applications.
 
 For more details, see also the blog article `Minesoft API to access big patent data`_.
 
@@ -68,7 +69,7 @@ Usage
 =====
 ::
 
-    # Login to PatBase and remember credentials for subsequent requests
+    # Login to PatBase API and remember credentials for subsequent requests
     patbase login --username=test@example.org --password=secret
 
     # Submit fulltext search expression and display results in JSON format
@@ -78,18 +79,33 @@ Usage
 *******************
 Project information
 *******************
-``minesoft-patbase-client`` is released under the Apache 2.0 license.
+``minesoft-patbase-client`` is released under the terms of the GNU AGPL 3.0 license.
 The code lives on `GitHub <https://github.com/ip-tools/minesoft-patbase-client>`_ and
 the Python package is published to `PyPI <https://pypi.org/project/minesoft-patbase-client/>`_.
 You might also want to have a look at the `documentation <https://docs.ip-tools.org/minesoft-patbase-client/>`_.
 
 The software has been tested on Python 2.7 and Python 3.6.
 
+Contributing
+============
 If you'd like to contribute you're most welcome!
 Spend some time taking a look around, locate a bug, design issue or
 spelling mistake and then send us a pull request or create an issue.
 
 Thanks in advance for your efforts, we really appreciate any help or feedback.
+
+License
+=======
+This software is copyright © 2018 The PatZilla authors. All rights reserved.
+
+It is and will always be **free and open source software**.
+
+Use of the source code included here is governed by the
+`GNU Affero General Public License <GNU-AGPL-3.0_>`_ and the
+`European Union Public License <EUPL-1.2_>`_.
+
+.. _GNU-AGPL-3.0: https://docs.ip-tools.org/ip-navigator/_static/license/GNU-AGPL-3.0.txt
+.. _EUPL-1.2: https://docs.ip-tools.org/ip-navigator/_static/license/EUPL-1.2.txt
 
 
 ----
