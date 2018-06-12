@@ -10,5 +10,5 @@ class PatBaseInvalidRequest(PatBaseException):
 class PatBaseLoginFailed(PatBaseException):
     pass
 
-class PatBaseInvalidFormat(PatBaseException):
+class PatBaseQueryFailed(PatBaseException):
     pass

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 # (c) 2018 Andreas Motl <andreas.motl@ip-tools.org>
 import logging
-from docopt import docopt, DocoptExit
+from docopt import docopt
 from patbase import __version__
-#from uspto.pbd.client import UsptoPairBulkDataClient
-#from uspto.util.command import run_command
-#from uspto.util.common import boot_logging
 from patbase.client import PatBaseClient
-from patbase.util import boot_logging, normalize_options
+from patbase.util import boot_logging, normalize_options, PersistentConfiguration
 
 """
-Python command line client for accessing the Minesoft PatBase REST API (https://www.patbase.com/rest/).
-See also: https://www.patbase.com/rest/PatBaseRestAPI.pdf
+Python command line client for accessing the Minesoft PatBase REST API.
+
+See also:
+- https://www.patbase.com/rest/
+- https://www.patbase.com/rest/PatBaseRestAPI.pdf
 """
 
 logger = logging.getLogger(__name__)
@@ -22,6 +22,7 @@ def run():
     """
     Usage:
         {program} login --username=<username> --password=<password>
+        {program} search <expression> [--username=<username> --password=<password>]
         {program} info
         {program} --version
         {program} (-h | --help)
@@ -31,14 +32,8 @@ def run():
         # Display published application by publication number in XML format
         {program} login --username=test@example.org --password=secret
 
-        # Search for documents matching "applicant=nasa" and display polished JSON response
-        {program} search 'firstNamedApplicant:(nasa)' --filter='appFilingDate:[2000-01-01T00:00:00Z TO 2017-12-31T23:59:59Z]'
-
-        # Search for documents matching "applicant=grohe" filed between 2010 and 2017
-        {program} search 'firstNamedApplicant:(*grohe*)' --filter='appFilingDate:[2010-01-01T00:00:00Z TO 2017-12-31T23:59:59Z]'
-
-        # Search for documents matching "applicant=nasa" and download zip archives containing bundles in XML and JSON formats
-        {program} search 'firstNamedApplicant:(nasa)' --download --format=xml,json --directory=/tmp
+        # Search for documents matching "Space Shuttle" in all fulltext fields and display JSON response
+        {program} search 'FT=(Space Shuttle)'
 
     """
 
@@ -51,6 +46,31 @@ def run():
     # Start logging subsystem
     boot_logging(options)
 
-    # An instance of the API client
-    client = PatBaseClient(username=options['username'], password=options['password'])
-    client.login()
+    # The configuration file for storing API credentials
+    config = PersistentConfiguration(appname='minesoft-patbase-client')
+
+    if options['login']:
+
+        # Create API client
+        client = PatBaseClient(username=options['username'], password=options['password'])
+        client.login()
+
+        # Save credentials for subsequent operations
+        logger.info('Saving login credentials to {}'.format(config.configfile))
+        config['api_credentials'] = {
+            'username': options['username'],
+            'password': options['password'],
+        }
+
+    elif options['search']:
+
+        # Optionally load credentials from configuration file
+        username, password = options['username'], options['password']
+        if not username or not password:
+            api_credentials = config['api_credentials']
+            username, password = api_credentials['username'], api_credentials['password']
+
+        # Create API client
+        client = PatBaseClient(username=username, password=password)
+        query = client.query(options['expression'])
+        print(query)
