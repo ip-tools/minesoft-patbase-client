@@ -6,7 +6,7 @@ Minesoft PatBase REST API client CHANGES
 development
 ===========
 - Persistently store user credentials for convenient usage with subsequent API operations
-- Implement PatBase API method "query"
+- Add basic implementation of PatBase API methods "query" and "searchresults"
 
 
 2018-06-11 0.0.0

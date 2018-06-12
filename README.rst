@@ -71,8 +71,8 @@ Usage
     # Login to PatBase and remember credentials for subsequent requests
     patbase login --username=test@example.org --password=secret
 
-    # Submit fulltext search expression
-    patbase search 'FT=(Space Shuttle)'
+    # Submit fulltext search expression and display results in JSON format
+    patbase search 'FT=(Space Shuttle)' | jq .
 
 
 *******************

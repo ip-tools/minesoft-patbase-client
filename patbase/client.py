@@ -6,10 +6,12 @@
 #
 import attr
 import json
+import maya
 import logging
 import requests
 
-from patbase.exceptions import PatBaseInvalidRequest, PatBaseLoginFailed, PatBaseQueryFailed
+from patbase.exceptions import PatBaseRequestError, PatBaseLoginError, PatBaseQueryError, PatBaseResultError
+from patbase.util import StopWatch
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +41,7 @@ class PatBaseClientBase(object):
 
         # Sanity checks
         if payload == '' and on_empty == 'raise':
-            raise PatBaseInvalidRequest('Empty response from PatBase API')
+            raise PatBaseRequestError('Empty response from PatBase API')
 
         # Decode JSON payload
         data = json.loads(payload)
@@ -77,8 +79,10 @@ class PatBaseClient(PatBaseClientBase):
         # Create HTTP session object which will keep track of cookies
         self.session = requests.Session()
 
-        # Send request
+        # Query parameters
         params = {'method': 'login', 'userid': self.username, 'password': self.password}
+
+        # Send request
         response = self.session.get(self.url, params=params)
 
         # Read response
@@ -86,14 +90,17 @@ class PatBaseClient(PatBaseClientBase):
 
         # Check response
         if 'LOGIN_TO_API' in data and data['LOGIN_TO_API'] == 'OK':
-            logger.info('PatBase API login succeeded with user "{}"'.format(self.username))
+            logger.info('PatBase API login succeeded')
         else:
-            raise PatBaseLoginFailed('PatBase API login failed, please check your credentials. The error was: {}'.format(data))
+            raise PatBaseLoginError('PatBase API login failed, please check your credentials. The error was: {}'.format(data))
 
         # Signal authenticated state
         self.authenticated = True
 
     def query(self, expression):
+
+        # Start stopwatch
+        stopwatch = StopWatch()
 
         # Make sure we are authenticated with the API
         self.ensure_login()
@@ -101,8 +108,10 @@ class PatBaseClient(PatBaseClientBase):
         # Report what we will be doing
         logger.info('PatBase API query using expression "{}"'.format(expression))
 
-        # Send request
+        # Query parameters
         params = {'method': 'query', 'query': expression}
+
+        # Send request
         response = self.session.get(self.url, params=params)
 
         # Read response
@@ -110,15 +119,84 @@ class PatBaseClient(PatBaseClientBase):
 
         # Check response
         if 'Results' in data and 'QueryKey' in data:
-            outcome = PatBaseResult(expression=expression, result_count=data['Results'], query_key=data['QueryKey'])
+            date = response.headers.get('Date')
+            duration = stopwatch.elapsed()
+            if date:
+                date = maya.parse(date).rfc3339()
+            outcome = PatBaseQuery(
+                expression=expression,
+                results=data['Results'],
+                date=date,
+                duration=duration,
+                querykey=data['QueryKey'],
+            )
             logger.info('PatBase API query succeeded with: {}'.format(outcome))
             return outcome
         else:
-            raise PatBaseQueryFailed('PatBase API query failed, please check your expression. The error was: {}'.format(data))
+            raise PatBaseQueryError('PatBase API query failed, please check your expression. The error was: {}'.format(data))
+
+    def searchresults(self, query, offset=None, limit=None, sort=None):
+
+        # Make sure we are authenticated with the API
+        self.ensure_login()
+
+        # Report what we will be doing
+        logger.info('PatBase API searchresults using query: {}'.format(query))
+
+        # Query parameters
+        params = {'method': 'searchresults', 'querykey': query.querykey}
+        if offset is not None:
+            params['from'] = offset
+            if limit is not None:
+                params['to'] = offset + limit
+
+        # TODO: Add knowledge about mapping
+        if sort is not None:
+            params['sortorder'] = sort
+
+        # Send request
+        response = self.session.get(self.url, params=params)
+
+        # Read response
+        data = self.process_response(response)
+
+        # Check response
+        if 'Families' in data:
+            outcome = PatBaseResult(query=query, records=data['Families'])
+            logger.info('PatBase API searchresults succeeded with: {}'.format(outcome))
+            return outcome
+        else:
+            raise PatBaseResultError(
+                'PatBase API searchresults failed. The error was: {}'.format(data))
+
+
+@attr.s
+class PatBaseQuery(object):
+
+    # Search expression string
+    expression = attr.ib()
+
+    # Total result count
+    results = attr.ib()
+
+    # Timestamp of query response
+    date = attr.ib()
+
+    # Duration of query operation
+    duration = attr.ib()
+
+    # QueryKey token for retrieving results
+    querykey = attr.ib()
 
 
 @attr.s
 class PatBaseResult(object):
-    expression = attr.ib()
-    result_count = attr.ib()
-    query_key = attr.ib()
+
+    # PatBaseQuery instance
+    query = attr.ib()
+
+    # List of result items
+    records = attr.ib(default=attr.Factory(list), repr=False)
+
+    def asdict(self):
+        return attr.asdict(self)

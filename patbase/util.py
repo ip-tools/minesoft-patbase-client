@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 # (c) 2018 Andreas Motl <andreas.motl@ip-tools.org>
-import json
 import os
 import sys
+import json
+import timeit
 import logging
-#import json_store
-from datetime import datetime
 from appdirs import user_data_dir
 
 
@@ -102,3 +101,19 @@ class PersistentConfiguration(dict):
         #self.store.sync()
         with open(self.configfile, 'w') as f:
             json.dump(self.store, f, indent=4)
+
+
+class StopWatch:
+
+    def __init__(self):
+        self.start()
+
+    def start(self):
+        self.starttime = self.now()
+
+    def now(self):
+        return timeit.default_timer()
+
+    def elapsed(self):
+        duration = round(self.now() - self.starttime, 2)
+        return duration

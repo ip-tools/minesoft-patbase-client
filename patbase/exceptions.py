@@ -4,11 +4,14 @@
 class PatBaseException(Exception):
     pass
 
-class PatBaseInvalidRequest(PatBaseException):
+class PatBaseRequestError(PatBaseException):
     pass
 
-class PatBaseLoginFailed(PatBaseException):
+class PatBaseLoginError(PatBaseException):
     pass
 
-class PatBaseQueryFailed(PatBaseException):
+class PatBaseQueryError(PatBaseException):
+    pass
+
+class PatBaseResultError(PatBaseException):
     pass

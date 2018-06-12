@@ -11,6 +11,7 @@ requires = [
     'appdirs>=1.4.3,<2.0.0',
     'requests>=2.18.4',
     'jsonpointer>=1.12,<2.0.0',
+    'maya==0.5.0',
 ]
 
 test_requires = [

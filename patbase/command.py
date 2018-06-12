@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # (c) 2018 Andreas Motl <andreas.motl@ip-tools.org>
+import json
 import logging
 from docopt import docopt
 from patbase import __version__
@@ -73,4 +74,5 @@ def run():
         # Create API client
         client = PatBaseClient(username=username, password=password)
         query = client.query(options['expression'])
-        print(query)
+        result = client.searchresults(query, offset=0, limit=20)
+        print(json.dumps(result.asdict()))
