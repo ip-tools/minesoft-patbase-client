@@ -18,7 +18,7 @@ test_requires = [
 ]
 
 setup(name='minesoft-patbase-client',
-      version='0.0.0',
+      version='0.1.0',
       description='minesoft-patbase-client is a client library for accessing the Minesoft PatBase REST API',
       long_description=README,
       license="AGPL 3, EUPL 1.2",
